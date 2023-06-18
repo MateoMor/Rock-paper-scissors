@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .hand {
+    @apply p-3 rounded-full shadow-[0_3px_0px_1px]
+  }
+
+  .innerHand {
+    @apply w-[80px] h-[80px] p-5 bg-white rounded-full aspect-square shadow-[inset_0_3px_0px_1px] shadow-[#BCBED3]
+  }
+
+   .rock {
+    @apply bg-gradient-to-t from-[#dc2e4e] to-[#dd405d] shadow-[#7D2346]
+  }
+
+  .paper {
+    @apply bg-gradient-to-t from-[#4865f4] to-[#5671f5] shadow-[#2A46C1]
+  }
+
+  .scissors {
+    @apply bg-gradient-to-t from-[#ec9e0e] to-[#eca922] shadow-[#C56A21]
+  } 
+}
