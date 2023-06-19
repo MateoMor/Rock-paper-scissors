@@ -4,11 +4,11 @@
 
 @layer components {
   .hand {
-    @apply p-3 rounded-full shadow-[0_3px_0px_1px]
+    @apply p-3 rounded-full shadow-[0_3px_0px_1px] transition duration-150 hover:scale-110
   }
 
   .innerHand {
-    @apply w-[80px] h-[80px] p-5 bg-white rounded-full aspect-square shadow-[inset_0_3px_0px_1px] shadow-[#BCBED3]
+    @apply w-[80px] h-[80px] p-5 bg-white rounded-full aspect-square shadow-[inset_0_3px_0px_1px] shadow-[#BCBED3] 
   }
 
    .rock {
@@ -22,4 +22,8 @@
   .scissors {
     @apply bg-gradient-to-t from-[#ec9e0e] to-[#eca922] shadow-[#C56A21]
   } 
+
+  .hover-default {
+    @apply transition duration-150 hover:scale-110
+  }
 }

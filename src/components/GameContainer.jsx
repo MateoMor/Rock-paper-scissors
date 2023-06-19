@@ -8,10 +8,10 @@ function GameContainer() {
     return (
         <div className="relative my-20 w-36">
 
-            <img src={triangle} alt="Triangle" className=""/>
+            <img id="triangle" src={triangle} alt="Triangle" className=""/>
 
             <Rock />
-            <Paper />
+            <Paper  />
             <Scissors/>
         </div>
     );

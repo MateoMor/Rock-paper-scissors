@@ -8,12 +8,17 @@ import Retry from "./components/Retry";
 function App() {
     return (
         <DataProvider>
-            <main className="bg-gradient-to-b from-[#1f3756] to-[#141539] h-screen p-4 flex flex-col items-center">
-                <Header />
-                <GameContainer />
-                <Retry/>
-                <Rules />
-            </main>
+            <div className="bg-[#141539]">
+                <main
+                    id="main"
+                    className="bg-gradient-to-b from-[#1f3756] to-[#141539] h-screen p-4 flex flex-col items-center max-w-2xl mx-auto"
+                >
+                    <Header />
+                    <GameContainer />
+                    <Retry />
+                    <Rules />
+                </main>
+            </div>
         </DataProvider>
     );
 }
