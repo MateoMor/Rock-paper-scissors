@@ -17,9 +17,7 @@ function GameContainer() {
 
             <Hand id="rock" top={-0.5} right={-0.5} src={rock} alt="Rock hand" className="rock" />
             <Hand id="paper" top={-0.5} left={-0.5} src={paper} alt="Paper hand" className="paper" />
-            <Hand id="scissors" bottom={-0.5} left={
-                document.getElementById("triangle").getBoundingClientRect.width / document.getElementById("scissors").width
-            } src={scissors} alt="scissors hand" className={`scissors `} />
+            <Hand id="scissors" bottom={-0.5} src={scissors} alt="scissors hand" className={`scissors `} />
         </div>
     );
 }
