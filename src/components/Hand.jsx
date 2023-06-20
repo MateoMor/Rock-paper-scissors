@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { DataContext } from "../../context/DataContext";
+import { DataContext } from "../context/DataContext";
 
-function Paper({
+function Hand({
     id,
     src,
     alt,
@@ -30,4 +30,4 @@ function Paper({
     );
 }
 
-export default Paper;
+export default Hand;
