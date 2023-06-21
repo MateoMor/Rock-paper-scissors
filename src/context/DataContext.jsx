@@ -7,9 +7,9 @@ export const DataProvider = ({ children }) => {
 
     const [result, setResult] = useState(true);
 
-    function translateElement(x, y, containerId, elementId, duration = "1s") {
-        const container = document.getElementById(containerId);
+    function translateElement(x, y, elementId, duration = "1s") {
         const element = document.getElementById(elementId);
+        const container = element.parentNode;
 
         const containerRect = container.getBoundingClientRect();
         const elementRect = element.getBoundingClientRect();
@@ -19,20 +19,17 @@ export const DataProvider = ({ children }) => {
         // Eliminar última resta de ambos para que el ángulo de referencia sea el notado y no el centro
         const offsetX =
             (containerRect.width * x) / 100 -
-            (elementRect.left - containerRect.left) - elementRect.width / 2;
+            (elementRect.left - containerRect.left) -
+            elementRect.width / 2;
         const offsetY =
             (containerRect.height * y) / 100 -
-            (elementRect.top - containerRect.top) - elementRect.height / 2;
+            (elementRect.top - containerRect.top) -
+            elementRect.height / 2;
 
         // Aplica la transformación de traducción al elemento
         element.style.transitionDuration = duration;
         element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
-
-    // handleOnClick sirve se activa cuando se presiona una mano
-    const handleOnClick = (e) => {
-        translateElement(50, 50, "triangle", e.target.id);
-    };
 
     // sizeElement sirve para obtener el porcentage del tamaño de un elemento
     function sizeElement(elementId, axis, percentage) {
@@ -45,13 +42,15 @@ export const DataProvider = ({ children }) => {
         }
     }
 
-    // Función que permite asignarle a top, left, right y bottom propiedades con respecto al tamaño del contenedor
+    // Función que permite asignarle a top, left, right y bottom propiedades con respecto al tamaño del contenedor. Para asignar con respecto al contenedor, <<reference = "container">>.
+    // Las propiedades son porcentuales a lo que hagan referencia
     const elementPositioner = (
         id,
+        reference = "element",
         top = "auto",
         left = "auto",
         bottom = "auto",
-        right = "auto",
+        right = "auto"
     ) => {
         const [elementWidth, setElementWidth] = useState(0);
         const [elementHeight, setElementHeight] = useState(0);
@@ -68,49 +67,134 @@ export const DataProvider = ({ children }) => {
         }, [sizeElement]);
 
         useEffect(() => {
-          
-          const elementStyleMod = document.getElementById(id).style;
+            const elementStyleMod = document.getElementById(id).style;
 
-          if (typeof top === "number") {
-            elementStyleMod.setProperty("top", `${elementHeight * top}px`);
-          }
+            // En caso de que reference no sea "container", las propiedades hacen referencia al tamaño del elemento
+            if (reference != "container") {
+                if (typeof top === "number") {
+                    elementStyleMod.setProperty(
+                        "top",
+                        `${elementHeight * top}px`
+                    );
+                }
 
-          if (typeof left === "number") {
-            elementStyleMod.setProperty("left", `${elementHeight * left}px`)
-          }
+                if (typeof left === "number") {
+                    elementStyleMod.setProperty(
+                        "left",
+                        `${elementHeight * left}px`
+                    );
+                }
 
-          if (typeof bottom === "number") {
-            elementStyleMod.setProperty("bottom", `${elementHeight * bottom}px`);
-          }
+                if (typeof bottom === "number") {
+                    elementStyleMod.setProperty(
+                        "bottom",
+                        `${elementHeight * bottom}px`
+                    );
+                }
 
-          if (typeof right === "number") {
-            elementStyleMod.setProperty("right", `${elementHeight * right}px`);
-          }
+                if (typeof right === "number") {
+                    elementStyleMod.setProperty(
+                        "right",
+                        `${elementHeight * right}px`
+                    );
+                }
+            } // En caso de que la propiedad reference sea "container", las propiedades hacen referencia al tamaño del elemento padre
+            else {
+                // Esto encuentra la altura y longitud del elemento padre
+                const ContainerWidth = document
+                    .getElementById(id)
+                    .parentNode.getBoundingClientRect().width;
+                const ContainerHeight = document
+                    .getElementById(id)
+                    .parentNode.getBoundingClientRect().height;
 
-/*             const topMod =
-                typeof top === "number" ? `${elementHeight * top}px` : "auto";
-            const leftMod =
-                typeof left === "number" ? `${elementHeight * left}px` : "auto";
-            const rightMod =
-                typeof right === "number"
-                    ? `${elementHeight * right}px`
-                    : "auto";
-            const bottomMod =
-                typeof bottom === "number"
-                    ? `${elementHeight * bottom}px`
-                    : "auto";
+                if (typeof top === "number") {
+                    elementStyleMod.setProperty(
+                        "top",
+                        `${(ContainerHeight * top) / 100 - elementHeight / 2}px`
+                    );
+                }
 
+                if (typeof left === "number") {
+                    elementStyleMod.setProperty(
+                        "left",
+                        `${(ContainerWidth * left) / 100 - elementWidth / 2}px`
+                    );
+                }
 
-            elementStyleMod.setProperty("top", topMod);
-            elementStyleMod.setProperty("left", leftMod);
-            elementStyleMod.setProperty("bottom", bottomMod);
-            elementStyleMod.setProperty("right", rightMod); */
+                if (typeof bottom === "number") {
+                    elementStyleMod.setProperty(
+                        "bottom",
+                        `${
+                            (ContainerHeight * bottom) / 100 - elementHeight / 2
+                        }px`
+                    );
+                }
+
+                if (typeof right === "number") {
+                    elementStyleMod.setProperty(
+                        "right",
+                        `${(ContainerWidth * right) / 100 - elementWidth / 2}px`
+                    );
+                }
+            }
         }, [elementHeight, elementWidth]);
     };
 
+    const modPosition = (id, x, y) => {
+        const modElement = document.getElementById(id);
+
+        const modElementWidth = modElement.getBoundingClientRect().width;
+        const modElementHeight = modElement.getBoundingClientRect().height;
+
+        const modContainerWidth =
+            modElement.parentNode.getBoundingClientRect().width;
+        const modContainerHeight =
+            modElement.parentNode.getBoundingClientRect().height;
+
+        modElement.style.setProperty(
+            "left",
+            `${(modContainerWidth * x) / 100 - modElementWidth / 2}px`
+        );
+
+        modElement.style.setProperty(
+            "top",
+            `${(modContainerHeight * y) / 100 - modElementHeight / 2}px`
+        );
+    };
+
+    // handleOnClick sirve se activa cuando se presiona una mano
+    const handleOnClick = (e) => {
+        translateElement(50, 50, e.target.id);
+
+        setTimeout(() => {
+            // Configuraciones arbitrarias de posición. Plantear un modelo para que los movimientos de translateElement siempre transladen al elemento
+            if (e.target.id == "paper") {
+                translateElement(40, 100, e.target.id);
+            } else if (e.target.id == "rock") {
+                translateElement(-60, 100, e.target.id);
+            } else {
+                translateElement(-10, 0, e.target.id);
+            }
+        }, 2000);
+    };
+
+    function determineWinner(player1Choice, player2Choice) {
+        if (player1Choice === player2Choice) {
+            return "draw";
+        } else if (
+            (player1Choice === "rock" && player2Choice === "scissors") ||
+            (player1Choice === "paper" && player2Choice === "rock") ||
+            (player1Choice === "scissors" && player2Choice === "paper")
+        ) {
+            return "player1";
+        } else {
+            return "player2";
+        }
+    }
+
     return (
         <DataContext.Provider
-            // value es un objeto en el que puedo compartir lo que deseo
             value={{
                 score,
                 setScore,
@@ -120,6 +204,7 @@ export const DataProvider = ({ children }) => {
                 sizeElement,
                 handleOnClick,
                 elementPositioner,
+                determineWinner,
             }}
         >
             {children}
