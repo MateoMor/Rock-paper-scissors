@@ -236,7 +236,7 @@ export const DataProvider = ({ children }) => {
     const newElementAnimation = () => {
         if (newElement) {
             setTimeout(() => {
-                document.getElementById("newElement").style.display = "block";
+                document.getElementById("newElement").style.opacity = "1";
                 translateElement(110, 50, "newElement");
             }, 2000);
         }
@@ -244,12 +244,13 @@ export const DataProvider = ({ children }) => {
 
     const [gameContainerVisible, setGameContainerVisible] = useState(true);
 
-  const resetGameContainer = () => {
-    setGameContainerVisible(false); 
-    setTimeout(() => {
-      setGameContainerVisible(true); 
-    }, 0);
-  };
+    const resetGameContainer = () => {
+        setGameContainerVisible(false);
+        setNewElement(false)
+        setTimeout(() => {
+            setGameContainerVisible(true);
+        }, 0);
+    };
 
     return (
         <DataContext.Provider
@@ -266,7 +267,7 @@ export const DataProvider = ({ children }) => {
                 newElement,
                 newElementAnimation,
                 gameContainerVisible,
-                resetGameContainer
+                resetGameContainer,
             }}
         >
             {children}

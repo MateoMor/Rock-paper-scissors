@@ -50,9 +50,9 @@ function GameContainer() {
             />
             {newElement && (
                 <NewElementGenerator
-                    className={"hidden"}
+                    className={"opacity-0"}
                     reference="container"
-                    top={10}
+                    top={50}
                     right={-75}
                 />
             )}
