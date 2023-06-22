@@ -3,11 +3,13 @@ import { createContext, useEffect, useState } from "react";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-    const [score, setScore] = useState(12);
+    const [score, setScore] = useState(0);
 
     const [result, setResult] = useState(true);
 
-    function translateElement(x, y, elementId, duration = "1s") {
+    const [newElement, setNewElement] = useState(false);
+
+    const translateElement = (x, y, elementId, duration = "1s") => {
         const element = document.getElementById(elementId);
         const container = element.parentNode;
 
@@ -29,10 +31,10 @@ export const DataProvider = ({ children }) => {
         // Aplica la transformación de traducción al elemento
         element.style.transitionDuration = duration;
         element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-    }
+    };
 
     // sizeElement sirve para obtener el porcentage del tamaño de un elemento
-    function sizeElement(elementId, axis, percentage) {
+    const sizeElement = (elementId, axis, percentage) => {
         const element = document.getElementById(elementId);
 
         if (axis == "x") {
@@ -40,7 +42,7 @@ export const DataProvider = ({ children }) => {
         } else if (axis == "y") {
             return (element.getBoundingClientRect().height * percentage) / 100;
         }
-    }
+    };
 
     // Función que permite asignarle a top, left, right y bottom propiedades con respecto al tamaño del contenedor. Para asignar con respecto al contenedor, <<reference = "container">>.
     // Las propiedades son porcentuales a lo que hagan referencia
@@ -141,45 +143,7 @@ export const DataProvider = ({ children }) => {
         }, [elementHeight, elementWidth]);
     };
 
-    const modPosition = (id, x, y) => {
-        const modElement = document.getElementById(id);
-
-        const modElementWidth = modElement.getBoundingClientRect().width;
-        const modElementHeight = modElement.getBoundingClientRect().height;
-
-        const modContainerWidth =
-            modElement.parentNode.getBoundingClientRect().width;
-        const modContainerHeight =
-            modElement.parentNode.getBoundingClientRect().height;
-
-        modElement.style.setProperty(
-            "left",
-            `${(modContainerWidth * x) / 100 - modElementWidth / 2}px`
-        );
-
-        modElement.style.setProperty(
-            "top",
-            `${(modContainerHeight * y) / 100 - modElementHeight / 2}px`
-        );
-    };
-
-    // handleOnClick sirve se activa cuando se presiona una mano
-    const handleOnClick = (e) => {
-        translateElement(50, 50, e.target.id);
-
-        setTimeout(() => {
-            // Configuraciones arbitrarias de posición. Plantear un modelo para que los movimientos de translateElement siempre transladen al elemento
-            if (e.target.id == "paper") {
-                translateElement(40, 100, e.target.id);
-            } else if (e.target.id == "rock") {
-                translateElement(-60, 100, e.target.id);
-            } else {
-                translateElement(-10, 0, e.target.id);
-            }
-        }, 2000);
-    };
-
-    function determineWinner(player1Choice, player2Choice) {
+    const determineWinner = (player1Choice, player2Choice) => {
         if (player1Choice === player2Choice) {
             return "draw";
         } else if (
@@ -191,7 +155,92 @@ export const DataProvider = ({ children }) => {
         } else {
             return "player2";
         }
-    }
+    };
+
+    const hideChildrenExceptOne = (parentId, childId) => {
+        const children = document.getElementById(parentId).children;
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].id !== childId) {
+                children[i].style.display = "none";
+            }
+        }
+    };
+
+    // handleOnClick sirve se activa cuando se presiona una mano
+    const handleOnClick = (e) => {
+        /* const posIniConX = document.getElementById(e.target.id).getBoundingClientRect().left - document.getElementById(e.target.id).parentNode.getBoundingClientRect().left
+
+        //console.log(posIniConX)
+
+        const posIniConY = document.getElementById(e.target.id).getBoundingClientRect().top - document.getElementById(e.target.id).parentNode.getBoundingClientRect().top
+
+        //console.log(posIniConY) */
+
+        const targetId = e.target.id;
+
+        translateElement(50, 50, targetId, "0.6s");
+
+        document
+            .getElementById(targetId)
+            .parentNode.style.setProperty(
+                "height",
+                `${
+                    document.getElementById("triangle").getBoundingClientRect()
+                        .height
+                }px`
+            );
+
+        document
+            .getElementById(targetId)
+            .parentNode.style.setProperty(
+                "width",
+                `${
+                    document.getElementById("triangle").getBoundingClientRect()
+                        .width
+                }px`
+            );
+
+        hideChildrenExceptOne("gameContainerDiv", targetId);
+
+        document.getElementById("triangle").style.display = "none";
+
+        setTimeout(() => {
+            // Configuraciones arbitrarias de posición. Plantear un modelo para que los movimientos de translateElement siempre transladen al elemento respecto a la posición fija del contenedor
+            if (targetId == "paper") {
+                translateElement(40, 100, targetId);
+            } else if (targetId == "rock") {
+                translateElement(-60, 100, targetId);
+            } else {
+                translateElement(-10, 0, targetId);
+            }
+
+            setNewElement(!newElement);
+
+            /* const posFinConX = document.getElementById(e.target.id).getBoundingClientRect().left - document.getElementById(e.target.id).parentNode.getBoundingClientRect().left
+
+        //console.log(posFinConX)
+
+        const posFinConY = document.getElementById(e.target.id).getBoundingClientRect().top - document.getElementById(e.target.id).parentNode.getBoundingClientRect().top
+
+        //console.log(posFinConY)
+
+        const destinationX = 0 * document.getElementById(e.target.id).parentNode.getBoundingClientRect().left / 100 - posFinConX - posIniConX
+        const destinationY = 0 * document.getElementById(e.target.id).parentNode.getBoundingClientRect().top / 100 - posFinConY - posIniConY
+
+        console.log(document.getElementById(e.target.id).parentNode.getBoundingClientRect().left)
+
+            document.getElementById(e.target.id).style.transform = `translate(${destinationX}px, ${destinationY}px)` */
+        }, 1000);
+    };
+
+    const newElementAnimation = () => {
+        if (newElement) {
+            setTimeout(() => {
+                document.getElementById("newElement").style.display = "block";
+                translateElement(110, 50, "newElement");
+            }, 2000);
+        }
+    };
 
     return (
         <DataContext.Provider
@@ -205,6 +254,8 @@ export const DataProvider = ({ children }) => {
                 handleOnClick,
                 elementPositioner,
                 determineWinner,
+                newElement,
+                newElementAnimation,
             }}
         >
             {children}

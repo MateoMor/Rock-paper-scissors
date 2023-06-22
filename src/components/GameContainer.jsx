@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { DataContext } from "../context/DataContext";
+
 import triangle from "../assets/bg-triangle.svg";
 
 import paper from "../assets/icon-paper.svg";
@@ -5,10 +8,15 @@ import rock from "../assets/icon-rock.svg";
 import scissors from "../assets/icon-scissors.svg";
 
 import Hand from "./Hand";
+import NewElementGenerator from "./NewElementGenerator";
+
+useContext;
 
 function GameContainer() {
+    const { newElement, newElementAnimation } = useContext(DataContext);
+
     return (
-        <div className="relative my-20 w-36">
+        <div id="gameContainerDiv" className="relative my-20 w-36">
             <img id="triangle" src={triangle} alt="Triangle" className="" />
 
             <Hand
@@ -37,9 +45,19 @@ function GameContainer() {
                 bottom={0}
                 right={50}
                 src={scissors}
-                alt="scissors hand"
+                alt="Scissors hand"
                 className={`scissors `}
             />
+            {newElement && (
+                <NewElementGenerator
+                    className={"hidden"}
+                    reference="container"
+                    top={10}
+                    right={-75}
+                />
+            )}
+            {newElementAnimation()}
+            
         </div>
     );
 }
