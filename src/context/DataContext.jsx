@@ -242,6 +242,15 @@ export const DataProvider = ({ children }) => {
         }
     };
 
+    const [gameContainerVisible, setGameContainerVisible] = useState(true);
+
+  const resetGameContainer = () => {
+    setGameContainerVisible(false); 
+    setTimeout(() => {
+      setGameContainerVisible(true); 
+    }, 0);
+  };
+
     return (
         <DataContext.Provider
             value={{
@@ -256,6 +265,8 @@ export const DataProvider = ({ children }) => {
                 determineWinner,
                 newElement,
                 newElementAnimation,
+                gameContainerVisible,
+                resetGameContainer
             }}
         >
             {children}
