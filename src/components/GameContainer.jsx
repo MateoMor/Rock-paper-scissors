@@ -15,7 +15,7 @@ function GameContainer() {
     const { newElement } = useContext(DataContext);
 
     return (
-        <div id="gameContainerDiv" className="relative my-20 w-36">
+        <div id="gameContainerDiv" className="relative my-24 w-36">
             <img id="triangle" src={triangle} alt="Triangle" />
 
             <Hand

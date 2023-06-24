@@ -4,7 +4,7 @@
 
 @layer components {
   .hand {
-    @apply p-3 rounded-full shadow-[0_3px_0px_1px] transition duration-150 hover:scale-110 active:bg-transparent
+    @apply p-3 rounded-full shadow-[0_3px_0px_1px] transition duration-150 hover:scale-110 
   }
 
   .innerHand {
@@ -24,6 +24,6 @@
   } 
 
   .hover-default {
-    @apply transition duration-150 hover:scale-110
+    @apply transition duration-150 hover:scale-110 active:bg-transparent
   }
 }

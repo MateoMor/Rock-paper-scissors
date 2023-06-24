@@ -29,6 +29,7 @@ function NewElementGenerator({
                 reference={reference}
                 top={top}
                 right={right}
+                disabled={true}
             />
         );
     } else if (newElementType == "paper") {
@@ -42,6 +43,7 @@ function NewElementGenerator({
                 reference={reference}
                 top={top}
                 right={right}
+                disabled={true}
             />
         );
     } else {
@@ -55,6 +57,7 @@ function NewElementGenerator({
                 reference={reference}
                 top={top}
                 right={right}
+                disabled={true}
             />
         );
     }

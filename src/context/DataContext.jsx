@@ -22,8 +22,6 @@ export const DataProvider = ({ children }) => {
 
     const [chosenHandId, setChosenHandId] = useState("");
 
-    const [onClickHand, setOnClickHand] = useState(true);
-
     const [rulesWindow, setRulesWindow] = useState(false);
 
     const [result, setResult] = useState("")
@@ -189,11 +187,10 @@ export const DataProvider = ({ children }) => {
 
     // handleOnClick sirve se activa cuando se presiona una mano
     const handleOnClick = (e) => {
-        setTimeout(() => {
-            setOnClickHand(false);
-        }, 200);
 
         const targetId = e.target.id;
+
+        document.getElementById(targetId).disabled = true
 
         translateElement(50, 50, targetId, "0.4s");
 
@@ -266,7 +263,6 @@ export const DataProvider = ({ children }) => {
         document.getElementById("playAgain").style.display = "none";
         setGameContainerVisible(false);
         setNewElement(false);
-        setOnClickHand(true);
         setNewElementType(randomTypeGenerator());
         setTimeout(() => {
             setGameContainerVisible(true);
@@ -275,7 +271,7 @@ export const DataProvider = ({ children }) => {
 
     const closeRulesWindow = () => {
             setTimeout(() => {
-                setRulesWindow(false);
+                document.getElementById("rulesButton").disabled = false
             }, 500);
             document.getElementById("rulesWindowScreen").style.display = "none";
             translateElement(50, 50, "rulesWindow", "0.4s");
@@ -296,7 +292,6 @@ export const DataProvider = ({ children }) => {
                 gameContainerVisible,
                 newElementType,
                 resetGameContainer,
-                onClickHand,
                 setRulesWindow,
                 rulesWindow,
                 closeRulesWindow,

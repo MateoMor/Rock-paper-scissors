@@ -13,7 +13,7 @@ function RulesWindow() {
             id="rulesWindow"
             className="absolute right-[-100vw] w-full h-full flex justify-center"
         >
-            <div className="absolute top-[5%]  bg-[#ffffff] rounded-lg  w-[80%] h-[70%] flex flex-col items-center justify-center gap-10">
+            <div className="absolute top-[5%]  bg-[#ffffff] rounded-lg  w-[80%] h-[60%] flex flex-col items-center justify-center gap-10">
                 <img
                     src={imageRules}
                     alt="Image of rules"
