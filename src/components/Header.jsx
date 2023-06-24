@@ -3,7 +3,6 @@ import { DataContext } from "../context/DataContext";
 import logo from "../assets/logo.svg";
 
 function Header() {
-    // useContext importa los datos del contexto global
     const { score } = useContext(DataContext);
 
     return (

@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
 
 import triangle from "../assets/bg-triangle.svg";
-
 import paper from "../assets/icon-paper.svg";
 import rock from "../assets/icon-rock.svg";
 import scissors from "../assets/icon-scissors.svg";

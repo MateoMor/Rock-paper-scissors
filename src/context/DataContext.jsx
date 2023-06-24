@@ -22,7 +22,11 @@ export const DataProvider = ({ children }) => {
 
     const [chosenHandId, setChosenHandId] = useState("");
 
-    const [onClickHand, setOnClickHand] = useState(true)
+    const [onClickHand, setOnClickHand] = useState(true);
+
+    const [rulesWindow, setRulesWindow] = useState(false);
+
+    const [result, setResult] = useState("")
 
     const translateElement = (x, y, elementId, duration = "1s") => {
         const element = document.getElementById(elementId);
@@ -160,14 +164,17 @@ export const DataProvider = ({ children }) => {
 
     const determineWinner = (player1Choice, player2Choice) => {
         if (player1Choice === player2Choice) {
+            setResult("DRAW")
         } else if (
             (player1Choice === "rock" && player2Choice === "scissors") ||
             (player1Choice === "paper" && player2Choice === "rock") ||
             (player1Choice === "scissors" && player2Choice === "paper")
         ) {
             setScore(score + 1);
+            setResult("YOU WIN")
         } else {
             setScore(score - 1);
+            setResult("YOU LOSE")
         }
     };
 
@@ -180,16 +187,11 @@ export const DataProvider = ({ children }) => {
         }
     };
 
-
-
     // handleOnClick sirve se activa cuando se presiona una mano
     const handleOnClick = (e) => {
-
         setTimeout(() => {
-            setOnClickHand(false)
+            setOnClickHand(false);
         }, 200);
-
-       
 
         const targetId = e.target.id;
 
@@ -234,9 +236,8 @@ export const DataProvider = ({ children }) => {
             setNewElement(!newElement);
 
             setTimeout(() => {
-                document.getElementById("playAgain").style.display = "flex"
+                document.getElementById("playAgain").style.display = "flex";
             }, 1700);
-
         }, 600);
     };
 
@@ -262,14 +263,22 @@ export const DataProvider = ({ children }) => {
     const [gameContainerVisible, setGameContainerVisible] = useState(true);
 
     const resetGameContainer = () => {
-        document.getElementById("playAgain").style.display = "none"
+        document.getElementById("playAgain").style.display = "none";
         setGameContainerVisible(false);
         setNewElement(false);
-        setOnClickHand(true)
+        setOnClickHand(true);
         setNewElementType(randomTypeGenerator());
         setTimeout(() => {
             setGameContainerVisible(true);
         }, 0);
+    };
+
+    const closeRulesWindow = () => {
+            setTimeout(() => {
+                setRulesWindow(false);
+            }, 500);
+            document.getElementById("rulesWindowScreen").style.display = "none";
+            translateElement(50, 50, "rulesWindow", "0.4s");
     };
 
     return (
@@ -288,6 +297,10 @@ export const DataProvider = ({ children }) => {
                 newElementType,
                 resetGameContainer,
                 onClickHand,
+                setRulesWindow,
+                rulesWindow,
+                closeRulesWindow,
+                result,
             }}
         >
             {children}
