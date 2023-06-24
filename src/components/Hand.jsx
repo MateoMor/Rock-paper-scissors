@@ -19,17 +19,17 @@ function Hand({
     elementPositioner(id, reference, top, left, bottom, right);
 
     return (
-        <button
+        <div
             disabled={disabled}
             id={id}
             // Ternary operator used to manage disabled property in the entire button
             onClick={(e) => document.getElementById(e.target.id).disabled ? {} : handleOnClick(e)}
-            className={`absolute hand active:bg-transparent ${className}`}
+            className={`absolute hand cursor-pointer ${className}`}
         >
-            <div id={id} className="innerHand active:bg-transparent">
-                <img id={id} src={src} alt={alt} className="active:bg-transparent" />
+            <div id={id} className="innerHand">
+                <img id={id} src={src} alt={alt} />
             </div>
-        </button>
+        </div>
     );
 }
 

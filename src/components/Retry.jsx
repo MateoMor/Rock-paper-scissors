@@ -7,7 +7,7 @@ function Retry() {
     return (
         <div
             id="playAgain"
-            className="hidden flex-col items-center absolute bottom-28 "
+            className="hidden flex-col items-center absolute bottom-32 "
         >
             <h2 className="font-barlow text-white text-[46px] font-extrabold tracking-wide">
                 {result}
