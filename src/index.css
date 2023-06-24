@@ -24,6 +24,6 @@
   } 
 
   .hover-default {
-    @apply transition duration-150 hover:scale-110 active:bg-transparent
+    @apply transition duration-150 hover:scale-110
   }
 }

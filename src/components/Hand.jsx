@@ -22,11 +22,12 @@ function Hand({
         <button
             disabled={disabled}
             id={id}
-            onClick={(e) => handleOnClick(e)}
-            className={`absolute hand  ${className}`}
+            // Ternary operator used to manage disabled property in the entire button
+            onClick={(e) => document.getElementById(e.target.id).disabled ? {} : handleOnClick(e)}
+            className={`absolute hand active:bg-transparent ${className}`}
         >
-            <div id={id} className="innerHand">
-                <img id={id} src={src} alt={alt} />
+            <div id={id} className="innerHand active:bg-transparent">
+                <img id={id} src={src} alt={alt} className="active:bg-transparent" />
             </div>
         </button>
     );

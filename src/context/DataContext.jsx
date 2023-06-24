@@ -190,6 +190,12 @@ export const DataProvider = ({ children }) => {
 
         const targetId = e.target.id;
 
+        const children = e.target.children;
+        for (let i = 0; i < e.target.length; i++) {
+            children[i].disabled = true
+            
+        }
+
         document.getElementById(targetId).disabled = true
 
         translateElement(50, 50, targetId, "0.4s");
