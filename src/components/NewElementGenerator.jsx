@@ -1,3 +1,7 @@
+import { useContext } from "react";
+
+import { DataContext } from "../context/DataContext";
+
 import paper from "../assets/icon-paper.svg";
 import rock from "../assets/icon-rock.svg";
 import scissors from "../assets/icon-scissors.svg";
@@ -12,9 +16,9 @@ function NewElementGenerator({
     bottom = "auto",
     right = "auto",
 }) {
-    const random = Math.floor(Math.random() * 3);
+    const { newElementType } = useContext(DataContext);
 
-    if (random == 0) {
+    if (newElementType == "rock") {
         return (
             <Hand
                 type="rock"
@@ -27,7 +31,7 @@ function NewElementGenerator({
                 right={right}
             />
         );
-    } else if (random == 1) {
+    } else if (newElementType == "paper") {
         return (
             <Hand
                 type="paper"
@@ -57,7 +61,6 @@ function NewElementGenerator({
 }
 
 export default NewElementGenerator;
-
 
 // Versión prueba
 

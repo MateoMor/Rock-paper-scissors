@@ -13,17 +13,21 @@ function Hand({
     bottom = "auto",
     right = "auto",
 }) {
-    const { handleOnClick, elementPositioner } = useContext(DataContext);
+    const { handleOnClick, elementPositioner, onClickHand } = useContext(DataContext);
 
     elementPositioner(id, reference, top, left, bottom, right);
+
+    if (!onClickHand) {
+        className = className + " cursor-default"
+    }
 
     return (
         <button
             id={id}
             onClick={(e) => {
-                handleOnClick(e, type);
+                onClickHand ? handleOnClick(e) : {}
             }}
-            className={`absolute hand ${className}`}
+            className={`absolute hand  ${className}`}
         >
             <div id={id} className="innerHand">
                 <img id={id} src={src} alt={alt} />

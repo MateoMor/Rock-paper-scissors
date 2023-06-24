@@ -3,11 +3,26 @@ import { createContext, useEffect, useState } from "react";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
+    const randomTypeGenerator = () => {
+        let random = Math.floor(Math.random() * 3);
+        if (random == 0) {
+            return "rock";
+        } else if (random == 1) {
+            return "paper";
+        } else {
+            return "scissors";
+        }
+    };
+
     const [score, setScore] = useState(0);
 
-    const [result, setResult] = useState(true);
+    const [newElementType, setNewElementType] = useState(randomTypeGenerator());
 
     const [newElement, setNewElement] = useState(false);
+
+    const [chosenHandId, setChosenHandId] = useState("");
+
+    const [onClickHand, setOnClickHand] = useState(true)
 
     const translateElement = (x, y, elementId, duration = "1s") => {
         const element = document.getElementById(elementId);
@@ -145,15 +160,14 @@ export const DataProvider = ({ children }) => {
 
     const determineWinner = (player1Choice, player2Choice) => {
         if (player1Choice === player2Choice) {
-            return "draw";
         } else if (
             (player1Choice === "rock" && player2Choice === "scissors") ||
             (player1Choice === "paper" && player2Choice === "rock") ||
             (player1Choice === "scissors" && player2Choice === "paper")
         ) {
-            return "player1";
+            setScore(score + 1);
         } else {
-            return "player2";
+            setScore(score - 1);
         }
     };
 
@@ -166,19 +180,20 @@ export const DataProvider = ({ children }) => {
         }
     };
 
+
+
     // handleOnClick sirve se activa cuando se presiona una mano
     const handleOnClick = (e) => {
-        /* const posIniConX = document.getElementById(e.target.id).getBoundingClientRect().left - document.getElementById(e.target.id).parentNode.getBoundingClientRect().left
 
-        //console.log(posIniConX)
+        setTimeout(() => {
+            setOnClickHand(false)
+        }, 200);
 
-        const posIniConY = document.getElementById(e.target.id).getBoundingClientRect().top - document.getElementById(e.target.id).parentNode.getBoundingClientRect().top
-
-        //console.log(posIniConY) */
+       
 
         const targetId = e.target.id;
 
-        translateElement(50, 50, targetId, "0.6s");
+        translateElement(50, 50, targetId, "0.4s");
 
         document
             .getElementById(targetId)
@@ -202,51 +217,56 @@ export const DataProvider = ({ children }) => {
 
         hideChildrenExceptOne("gameContainerDiv", targetId);
 
-        document.getElementById("triangle").style.display = "none";
+        document.getElementById("triangle").style.opacity = "1";
 
         setTimeout(() => {
             // Configuraciones arbitrarias de posición. Plantear un modelo para que los movimientos de translateElement siempre transladen al elemento respecto a la posición fija del contenedor
             if (targetId == "paper") {
-                translateElement(40, 100, targetId);
+                translateElement(40, 100, targetId, "0.8s");
             } else if (targetId == "rock") {
-                translateElement(-60, 100, targetId);
+                translateElement(-60, 100, targetId, "0.8s");
             } else {
-                translateElement(-10, 0, targetId);
+                translateElement(-10, 0, targetId, "0.8s");
             }
+
+            setChosenHandId(targetId);
 
             setNewElement(!newElement);
 
-            /* const posFinConX = document.getElementById(e.target.id).getBoundingClientRect().left - document.getElementById(e.target.id).parentNode.getBoundingClientRect().left
+            setTimeout(() => {
+                document.getElementById("playAgain").style.display = "flex"
+            }, 1700);
 
-        //console.log(posFinConX)
-
-        const posFinConY = document.getElementById(e.target.id).getBoundingClientRect().top - document.getElementById(e.target.id).parentNode.getBoundingClientRect().top
-
-        //console.log(posFinConY)
-
-        const destinationX = 0 * document.getElementById(e.target.id).parentNode.getBoundingClientRect().left / 100 - posFinConX - posIniConX
-        const destinationY = 0 * document.getElementById(e.target.id).parentNode.getBoundingClientRect().top / 100 - posFinConY - posIniConY
-
-        console.log(document.getElementById(e.target.id).parentNode.getBoundingClientRect().left)
-
-            document.getElementById(e.target.id).style.transform = `translate(${destinationX}px, ${destinationY}px)` */
-        }, 1000);
+        }, 600);
     };
 
-    const newElementAnimation = () => {
+    const newElementGenerated = () => {
         if (newElement) {
             setTimeout(() => {
                 document.getElementById("newElement").style.opacity = "1";
-                translateElement(110, 50, "newElement");
-            }, 2000);
+                translateElement(110, 50, "newElement", "0.6s");
+
+                setTimeout(() => {
+                    determineWinner(chosenHandId, newElementType);
+                }, 700);
+            }, 900);
         }
     };
+
+    useEffect(() => {
+        {
+            newElementGenerated({});
+        }
+    }, [newElement]);
 
     const [gameContainerVisible, setGameContainerVisible] = useState(true);
 
     const resetGameContainer = () => {
+        document.getElementById("playAgain").style.display = "none"
         setGameContainerVisible(false);
-        setNewElement(false)
+        setNewElement(false);
+        setOnClickHand(true)
+        setNewElementType(randomTypeGenerator());
         setTimeout(() => {
             setGameContainerVisible(true);
         }, 0);
@@ -257,17 +277,17 @@ export const DataProvider = ({ children }) => {
             value={{
                 score,
                 setScore,
-                result,
-                setResult,
                 translateElement,
                 sizeElement,
                 handleOnClick,
                 elementPositioner,
                 determineWinner,
                 newElement,
-                newElementAnimation,
+                newElementGenerated,
                 gameContainerVisible,
+                newElementType,
                 resetGameContainer,
+                onClickHand,
             }}
         >
             {children}

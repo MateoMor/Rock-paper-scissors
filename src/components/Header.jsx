@@ -7,7 +7,7 @@ function Header() {
     const { score } = useContext(DataContext);
 
     return (
-        <div className="border-solid border-[3px] border-[#606e85] rounded-lg p-4 flex justify-between items-center w-[90%] max-w-[900px]">
+        <div className="border-solid border-[3px]  border-[#606e85] rounded-lg p-4 flex justify-between items-center w-[90%] max-w-[900px] mt-4">
             <div className="py-3 w-24">
                 <img src={logo} alt="logo" className="object-contain" />
             </div>

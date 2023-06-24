@@ -5,7 +5,7 @@ function Retry() {
     const { result, resetGameContainer } = useContext(DataContext);
 
     return (
-        <div className="flex flex-col items-center absolute bottom-24 ">
+        <div id="playAgain" className="hidden flex-col items-center absolute bottom-24 ">
             <h2 className="font-barlow text-white text-[46px] font-extrabold tracking-wide">
                 {result ? "YOU WIN" : "YOU LOSE"}
             </h2>

@@ -13,11 +13,11 @@ import NewElementGenerator from "./NewElementGenerator";
 useContext;
 
 function GameContainer() {
-    const { newElement, newElementAnimation } = useContext(DataContext);
+    const { newElement } = useContext(DataContext);
 
     return (
         <div id="gameContainerDiv" className="relative my-20 w-36">
-            <img id="triangle" src={triangle} alt="Triangle" className="" />
+            <img id="triangle" src={triangle} alt="Triangle" />
 
             <Hand
                 type="paper"
@@ -46,7 +46,7 @@ function GameContainer() {
                 right={50}
                 src={scissors}
                 alt="Scissors hand"
-                className={`scissors `}
+                className="scissors"
             />
             {newElement && (
                 <NewElementGenerator
@@ -56,8 +56,6 @@ function GameContainer() {
                     right={-75}
                 />
             )}
-            {newElementAnimation()}
-            
         </div>
     );
 }
