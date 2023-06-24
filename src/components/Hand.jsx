@@ -19,17 +19,17 @@ function Hand({
     elementPositioner(id, reference, top, left, bottom, right);
 
     return (
-        <div
+        <button
             disabled={disabled}
             id={id}
             // Ternary operator used to manage disabled property in the entire button
             onClick={(e) => document.getElementById(e.target.id).disabled ? {} : handleOnClick(e)}
-            className={`absolute hand cursor-pointer ${className}`}
+            className={`absolute hand ${className}`}
         >
             <div id={id} className="innerHand">
                 <img id={id} src={src} alt={alt} />
             </div>
-        </div>
+        </button>
     );
 }
 
